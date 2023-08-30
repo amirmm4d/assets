@@ -78,20 +78,6 @@ $ ps --no-headers -o "rss,cmd" -C php-fpm | awk '{ sum+=$1 } END { printf ("%d%s
 
 $ ps --no-headers -o "rss,cmd" -C php-fpm7.3 | awk '{ sum+=$1 } END { printf ("%d%s\n", sum/NR/1024,"Mb") }'
 
-
-# در این نقطه از مقاله نحوه بهینه سازی و الگوریتم بهینه سازی در تمامی کانفیگ های مختلف سیستم رو با توجه به (pm = dynamic) توضیح میدم
-
-الگوریتم:
-
-pm                            dynamic
-pm.max_childern               (total RAM - (DB ,etc, other services) / worker process size{php-fpm:rss}) - 10%
-pm.start_servers              (total cpu cores - (DB ,etc, other services) * 4) - 10%
-pm.min_spare_servers          (total cpu cores - (DB ,etc, other services) * 2) - 10%
-pm.max_spare_servers          (total cpu cores - (DB ,etc, other services) * 4) - 10%
-
-#نکته :
-10% کسری اخر به خاطر این است که اگر سرور شلوغ شد کل منابع درگیر نشود که بتوانیم به سرور متصل شویم
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 fastCGI: 
 
@@ -105,3 +91,13 @@ worker:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 بهینه سازی کانفیگ :
 
+# در این نقطه از مقاله نحوه بهینه سازی و الگوریتم بهینه سازی در تمامی کانفیگ های مختلف سیستم رو با توجه به (pm = dynamic) توضیح میدم
+
+pm                            dynamic
+pm.max_childern               (total RAM - (DB ,etc, other services) / worker process size{php-fpm:rss}) - 10%
+pm.start_servers              (total cpu cores - (DB ,etc, other services) * 4) - 10%
+pm.min_spare_servers          (total cpu cores - (DB ,etc, other services) * 2) - 10%
+pm.max_spare_servers          (total cpu cores - (DB ,etc, other services) * 4) - 10%
+
+#نکته :
+10% کسری اخر به خاطر این است که اگر سرور شلوغ شد کل منابع درگیر نشود که بتوانیم به سرور متصل شویم
